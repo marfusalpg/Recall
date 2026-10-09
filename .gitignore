@@ -179,3 +179,38 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+
+
+# =========================
+# Recall - local configuration and secrets
+# =========================
+
+# Environment variables and API keys
+.env.*
+!.env.example
+secrets.json
+config.local.json
+
+# Local application settings
+settings.local.json
+
+# Local databases and credentials
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Local screenshots and temporary OCR images
+screenshots/
+temp/
+tmp/
+
+# IDE workspace settings
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,341 @@
+/* ==================================================
+   Recall — Dark Minimal Design System
+   ================================================== */
+
+* {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 13px;
+}
+
+QMainWindow {
+    background-color: #0c0c10;
+    color: #ededf2;
+}
+
+QWidget#mainContent {
+    background-color: #0c0c10;
+    color: #ededf2;
+}
+
+QFrame#sidebar {
+    background-color: #101015;
+    border-right: 1px solid #24242d;
+}
+
+QLabel {
+    color: #ededf2;
+    background: transparent;
+    border: none;
+}
+
+/* Brand */
+
+QLabel#brandIcon {
+    background-color: #8b5cf6;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+QLabel#brandName {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Sidebar navigation */
+
+QLabel#sectionLabel {
+    color: #777783;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+QPushButton#navButton {
+    background-color: transparent;
+    color: #a5a5b2;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+QPushButton#navButton:hover {
+    background-color: #1b1b24;
+    color: #f4f4f8;
+}
+
+QPushButton#navButton:checked {
+    background-color: #252033;
+    color: #c4a7ff;
+    border: 1px solid #39304f;
+}
+
+/* Profile */
+
+QFrame#profileCard {
+    background-color: #181820;
+    border: 1px solid #292933;
+    border-radius: 10px;
+}
+
+QLabel#profileTitle {
+    font-weight: 600;
+}
+
+QLabel#mutedText {
+    color: #898996;
+    font-size: 12px;
+}
+
+/* Header */
+
+QLabel#pageTitle {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+}
+
+QLabel#versionBadge {
+    color: #b7a0f8;
+    background-color: #211b30;
+    border: 1px solid #342949;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+/* Dashboard hero */
+
+QFrame#welcomeCard {
+    background-color: #17151f;
+    border: 1px solid #30263f;
+    border-radius: 14px;
+}
+
+QLabel#eyebrow {
+    color: #b89aff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+QLabel#heroTitle {
+    font-size: 29px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+QLabel#heroDescription {
+    color: #aaa7b8;
+    font-size: 13px;
+}
+
+QLabel#sectionTitle {
+    font-size: 16px;
+    font-weight: 650;
+}
+
+QFrame#infoCard {
+    background-color: #14141b;
+    border: 1px solid #272731;
+    border-radius: 11px;
+}
+
+QFrame#infoCard:hover {
+    background-color: #191921;
+    border: 1px solid #393345;
+}
+
+QLabel#cardNumber {
+    color: #a78bfa;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+QLabel#cardTitle {
+    color: #e9e9f0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QLabel#statusValue {
+    color: #e9e4f7;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QLabel#cardDescription {
+    color: #92929f;
+    font-size: 12px;
+}
+
+QLabel#errorText {
+    color: #e0a0a6;
+    font-size: 12px;
+}
+
+QFrame#statusCard {
+    background-color: #13171a;
+    border: 1px solid #27312d;
+    border-radius: 9px;
+}
+
+QLabel#statusDot {
+    color: #70d6a0;
+    font-size: 10px;
+}
+
+/* Buttons */
+
+QPushButton#primaryButton {
+    background-color: #8b5cf6;
+    color: #ffffff;
+    border: 1px solid #956cf7;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 600;
+}
+
+QPushButton#primaryButton:hover {
+    background-color: #9b72fa;
+}
+
+QPushButton#primaryButton:pressed {
+    background-color: #7545db;
+}
+
+QPushButton#secondaryButton {
+    background-color: #1b1b24;
+    color: #d7d7e1;
+    border: 1px solid #32323e;
+    border-radius: 8px;
+    padding: 9px 13px;
+}
+
+QPushButton#secondaryButton:hover {
+    background-color: #242430;
+    border-color: #494958;
+}
+
+QPushButton:disabled {
+    color: #62626e;
+    background-color: #17171e;
+    border-color: #272731;
+}
+
+/* Workspace */
+
+QFrame#editorCard,
+QFrame#settingsCard {
+    background-color: #14141b;
+    border: 1px solid #292933;
+    border-radius: 12px;
+}
+
+QTextEdit#textEditor {
+    background-color: #0f0f15;
+    color: #e8e8f0;
+    border: 1px solid #2b2b37;
+    border-radius: 8px;
+    padding: 13px;
+    selection-background-color: #6040a0;
+    selection-color: #ffffff;
+}
+
+QPlainTextEdit#promptEditor {
+    background-color: #0f0f15;
+    color: #e8e8f0;
+    border: 1px solid #2b2b37;
+    border-radius: 8px;
+    padding: 10px;
+    selection-background-color: #6040a0;
+    selection-color: #ffffff;
+}
+
+QPlainTextEdit#promptEditor:focus {
+    border: 1px solid #7450bb;
+}
+
+QTextEdit#textEditor:focus {
+    border: 1px solid #7450bb;
+}
+
+QLabel#fieldLabel {
+    color: #c9c9d4;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Settings inputs */
+
+QComboBox,
+QLineEdit,
+QSpinBox {
+    background-color: #101017;
+    color: #e5e5ed;
+    border: 1px solid #30303b;
+    border-radius: 7px;
+    padding: 9px 10px;
+    min-height: 18px;
+}
+
+QComboBox:focus,
+QLineEdit:focus,
+QSpinBox:focus {
+    border: 1px solid #7450bb;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 28px;
+}
+
+QSpinBox::up-button,
+QSpinBox::down-button {
+    width: 18px;
+    border: none;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #191920;
+    color: #ededf2;
+    border: 1px solid #383844;
+    selection-background-color: #35284d;
+    selection-color: #ffffff;
+    padding: 4px;
+    outline: none;
+}
+
+/* Scrollbars */
+
+QScrollBar:vertical {
+    background-color: transparent;
+    width: 8px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #383844;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #555565;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
+}

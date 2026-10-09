@@ -1,0 +1,7 @@
+PySide6>=6.7
+openai>=1.68,<2
+google-genai>=1.0
+pyautogui>=0.9.54
+pytesseract>=0.3.13
+keyboard>=0.13.5
+keyring>=25
