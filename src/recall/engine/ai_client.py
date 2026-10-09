@@ -1,9 +1,13 @@
+from time import sleep
+
 from recall.config.settings import (
     AI_PROVIDER_GEMINI,
     AI_PROVIDER_OPENAI,
     DEFAULT_GEMINI_MODEL,
     DEFAULT_OPENAI_MODEL,
 )
+
+_GEMINI_MAX_ATTEMPTS = 3
 
 
 def ask_openai(text: str, prompt: str, api_key: str) -> str:
@@ -27,17 +31,26 @@ def ask_gemini(text: str, prompt: str, api_key: str) -> str:
     """Send OCR text to the Gemini API using the configured prompt."""
     try:
         from google import genai
+        from google.genai.errors import ServerError
     except ImportError as exc:
         raise RuntimeError(
             "Gemini support is unavailable. Install the project requirements."
         ) from exc
 
     client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=DEFAULT_GEMINI_MODEL,
-        contents=f"{prompt.rstrip()}\n\n{text}",
-    )
-    return (response.text or "").strip()
+    for attempt in range(_GEMINI_MAX_ATTEMPTS):
+        try:
+            response = client.models.generate_content(
+                model=DEFAULT_GEMINI_MODEL,
+                contents=f"{prompt.rstrip()}\n\n{text}",
+            )
+            return (response.text or "").strip()
+        except ServerError as exc:
+            if exc.code != 503 or attempt == _GEMINI_MAX_ATTEMPTS - 1:
+                raise
+            sleep(2**attempt)
+
+    raise RuntimeError("Gemini request ended without a response.")
 
 
 def ask_ai(text: str, prompt: str, api_key: str, provider: str) -> str:

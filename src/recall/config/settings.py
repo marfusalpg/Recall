@@ -7,7 +7,7 @@ from PySide6.QtCore import QSettings
 
 
 DEFAULT_OPENAI_MODEL = "gpt-5.2"
-DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+DEFAULT_GEMINI_MODEL = "gemini-3.8-flash"
 AI_PROVIDER_OPENAI = "openai"
 AI_PROVIDER_GEMINI = "gemini"
 AI_PROVIDERS = (AI_PROVIDER_OPENAI, AI_PROVIDER_GEMINI)

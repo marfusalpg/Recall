@@ -72,6 +72,9 @@ switches between light and dark text for contrast.
   select the language(s) that are installed.
 - **Hotkey registration error:** choose a valid key or key combination that is
   not blocked by the operating system or another application.
+- **Gemini `503 UNAVAILABLE`:** Recall retries temporary Gemini service
+  overloads up to three times. If the error persists, the selected Gemini model
+  may still be unavailable; try the request again later.
 - The Overview and Engine pages display the latest operation status and
   readable error details.
 

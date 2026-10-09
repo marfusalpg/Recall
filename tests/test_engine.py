@@ -110,11 +110,128 @@ class EnginePipelineTests(unittest.TestCase):
             )
 
         self.assertEqual(answer, "B")
-        self.assertEqual(recorded["model"], "gemini-2.5-flash")
+        self.assertEqual(recorded["model"], "gemini-3.8-flash")
         self.assertEqual(recorded["api_key"], "gemini-test-key")
         self.assertEqual(
             recorded["contents"], "Return the best answer.\n\nQuestion text"
         )
+
+    def test_gemini_retries_service_unavailable(self) -> None:
+        from google.genai.errors import ServerError
+
+        recorded = {"attempts": 0}
+
+        class Models:
+            def generate_content(self, *, model: str, contents: str):
+                recorded["attempts"] += 1
+                if recorded["attempts"] == 1:
+                    raise ServerError(503, {"error": {"message": "busy"}})
+                return types.SimpleNamespace(text="B")
+
+        class Client:
+            def __init__(self, *, api_key: str):
+                self.models = Models()
+
+        fake_errors = types.ModuleType("google.genai.errors")
+        fake_errors.ServerError = ServerError
+        fake_genai = types.ModuleType("google.genai")
+        fake_genai.Client = Client
+        fake_google = types.ModuleType("google")
+        fake_google.genai = fake_genai
+        with (
+            patch.dict(
+                sys.modules,
+                {
+                    "google": fake_google,
+                    "google.genai": fake_genai,
+                    "google.genai.errors": fake_errors,
+                },
+            ),
+            patch("recall.engine.ai_client.sleep") as sleep,
+        ):
+            answer = ask_gemini("Question text", "Prompt", "gemini-test-key")
+
+        self.assertEqual(answer, "B")
+        self.assertEqual(recorded["attempts"], 2)
+        sleep.assert_called_once_with(1)
+
+    def test_gemini_does_not_retry_non_503_server_errors(self) -> None:
+        from google.genai.errors import ServerError
+
+        error = ServerError(500, {"error": {"message": "failed"}})
+        recorded = {"attempts": 0}
+
+        class Models:
+            def generate_content(self, *, model: str, contents: str):
+                recorded["attempts"] += 1
+                raise error
+
+        class Client:
+            def __init__(self, *, api_key: str):
+                self.models = Models()
+
+        fake_errors = types.ModuleType("google.genai.errors")
+        fake_errors.ServerError = ServerError
+        fake_genai = types.ModuleType("google.genai")
+        fake_genai.Client = Client
+        fake_google = types.ModuleType("google")
+        fake_google.genai = fake_genai
+        with (
+            patch.dict(
+                sys.modules,
+                {
+                    "google": fake_google,
+                    "google.genai": fake_genai,
+                    "google.genai.errors": fake_errors,
+                },
+            ),
+            patch("recall.engine.ai_client.sleep") as sleep,
+        ):
+            with self.assertRaisesRegex(ServerError, "failed") as raised:
+                ask_gemini("Question text", "Prompt", "gemini-test-key")
+
+        self.assertIs(raised.exception, error)
+        self.assertEqual(recorded["attempts"], 1)
+        sleep.assert_not_called()
+
+    def test_gemini_stops_after_three_service_unavailable_attempts(self) -> None:
+        from google.genai.errors import ServerError
+
+        error = ServerError(503, {"error": {"message": "busy"}})
+        recorded = {"attempts": 0}
+
+        class Models:
+            def generate_content(self, *, model: str, contents: str):
+                recorded["attempts"] += 1
+                raise error
+
+        class Client:
+            def __init__(self, *, api_key: str):
+                self.models = Models()
+
+        fake_errors = types.ModuleType("google.genai.errors")
+        fake_errors.ServerError = ServerError
+        fake_genai = types.ModuleType("google.genai")
+        fake_genai.Client = Client
+        fake_google = types.ModuleType("google")
+        fake_google.genai = fake_genai
+        with (
+            patch.dict(
+                sys.modules,
+                {
+                    "google": fake_google,
+                    "google.genai": fake_genai,
+                    "google.genai.errors": fake_errors,
+                },
+            ),
+            patch("recall.engine.ai_client.sleep") as sleep,
+        ):
+            with self.assertRaises(ServerError) as raised:
+                ask_gemini("Question text", "Prompt", "gemini-test-key")
+
+        self.assertIs(raised.exception, error)
+        self.assertEqual(recorded["attempts"], 3)
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [1, 2])
 
     def test_default_prompt_is_english(self) -> None:
         self.assertIn("The text contains a test question", DEFAULT_PROMPT)
